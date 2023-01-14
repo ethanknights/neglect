@@ -34,11 +34,11 @@
 
   "conditionMapping_analysis": [
     {
-      "name": "LHUNI",
+      "name": "UNILH",
       "target": [1, 2]
     },
     {
-      "name": "RHUNI",
+      "name": "UNIRH",
       "target": [3, 4]
     },
     {
