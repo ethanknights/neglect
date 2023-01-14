@@ -1,0 +1,53 @@
+{
+
+  "subjNames": [
+  "DA",
+  "NH06",
+  "CT07",
+  "EH09",
+  "AW07",
+  "UB03",
+  "BT07",
+  "VH11",
+  "RN07",
+  "RS24",
+  "SMS05"],
+
+  "conditionMapping_original": [
+    {
+      "name": "LHUNI",
+      "target": [1, 2]
+    },
+    {
+      "name": "RHUNI",
+      "target": [1, 2]
+    },
+    {
+      "name": "BICON",
+      "target": [1, 2, 3, 4]
+    },
+    {
+      "name": "RHUNI",
+      "target": [1, 2, 3, 4]
+    }
+  ],
+
+  "conditionMapping_analysis": [
+    {
+      "name": "LHUNI",
+      "target": [1, 2]
+    },
+    {
+      "name": "RHUNI",
+      "target": [3, 4]
+    },
+    {
+      "name": "BICON",
+      "target": [5, 6, 7, 8]
+    },
+    {
+      "name": "RHUNI",
+      "target": [9, 10, 11, 12]
+    }
+  ]
+}
