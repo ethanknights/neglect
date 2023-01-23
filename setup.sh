@@ -17,6 +17,6 @@ https://github.com/ethanknights/ <TBC>
 
 echo '
 Consider environment setup with:
-pip install -r env/requirements.txt
+pip install -r requirements.txt
 '
-#pip install -r env/requirements.txt
+#pip install -r requirements.txt
