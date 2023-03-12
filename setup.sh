@@ -6,9 +6,9 @@ Downloading data to ./data (from the Open Science Framework used in: Knights et 
 
 mkdir ./data
 
-curl -L 'https://osf.io//jg2dr?action=download&version=1' > ./data/UNIBI_Database_editedForMatlab.xlsx
+curl -L 'https://osf.io/wtq5a?action=download&version=1' > ./data/UNIBI_Database_editedForMatlab.xlsx
 
-mv ./data/UNIBI_Database_editedForMatalb.xlsx rawData.xlsx
+mv ./data/UNIBI_Database_editedForMatlab.xlsx ./data/rawData.xlsx
 
 echo '
 Setup complete. For analysis instructions see:
