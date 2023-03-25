@@ -25,30 +25,69 @@ for idx, _ in enumerate(df['Trial Name']):
 df['subjName'] = tmp
 
 # Add cond Names
-tmp = []
+tmp_condition = [] # UNI_LH / UNI_RH / BI_CON / BI_INC
+tmp_hand = [] # LH / RH
+tmp_target = [] # Far / Near
 for idx, _ in enumerate(df['Trial Name']):
     if 'LH' in _:
-        tmp.append('UNI_LH')
+        tmp_condition.append('UNI')
+        tmp_hand.append('LH')
+        if df['target'][idx] == 1:
+            tmp_target.append('Far')
+        elif df['target'][idx] == 2:
+            tmp_target.append('Near')
     elif 'RH' in _:
-        tmp.append('UNI_RH')
+        tmp_condition.append('UNI')
+        tmp_hand.append('RH')
+        if df['target'][idx] == 1:
+            tmp_target.append('Far')
+        elif df['target'][idx] == 2:
+            tmp_target.append('Near')
     elif 'BICON' in _ or 'BI_CON' in _ or 'cong' in _ or 'AW0727052016_BI' in _:
-        tmp.append('BI_CON')
-    elif 'INC' in _ or 'cong' in _:
-        tmp.append('BI_INC')
+        tmp_condition.append('CON')
+        if df['target'][idx] == 1:
+            tmp_hand.append('RH')
+            tmp_target.append('Far')
+        elif df['target'][idx] == 2:
+            tmp_hand.append('RH')
+            tmp_target.append('Near')
+        elif df['target'][idx] == 3:
+            tmp_hand.append('LH')
+            tmp_target.append('Far')
+        elif df['target'][idx] == 4:
+            tmp_hand.append('LH')
+            tmp_target.append('Near')
+    elif 'INC' in _:
+        tmp_condition.append('INC')
+        if df['target'][idx] == 1:
+            tmp_hand.append('RH')
+            tmp_target.append('Far')
+        elif df['target'][idx] == 2:
+            tmp_hand.append('RH')
+            tmp_target.append('Near')
+        elif df['target'][idx] == 3:
+            tmp_hand.append('LH')
+            tmp_target.append('Far')
+        elif df['target'][idx] == 4:
+            tmp_hand.append('LH')
+            tmp_target.append('Near')
     else:
-        tmp.append('NaN')
-df['condName_noHand'] = tmp
+        tmp_condition.append('NaN')
+        tmp_hand.append('NaN')
+        tmp_target.append('NaN')
+df['condition_name'] = tmp_condition
+df['hand_name']      = tmp_hand
+df['target_name']    = tmp_target
 
 # assert none missing!
-tmp = df[df['condName_noHand'] == 'NaN']
+tmp = df[df['condition_name'] == 'NaN']
+tmp = df[df['hand_name'] == 'NaN']
+tmp = df[df['target_name'] == 'NaN']
 assert(len(tmp) == 0)
 
 
-# Add hand names
-# tmp = df[df['condName_noHand'] == 'BI_CON']
-# df.to_excel('./data/tmp.xlsx')
 
 
 # Write
-#df.to_excel('./data/rawData2.xlsx')
+df.to_excel('./data/rawData2.xlsx')
 
