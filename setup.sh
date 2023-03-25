@@ -1,14 +1,13 @@
 #!/bin/bash
 
 echo '
-Downloading data to ./data (from the Open Science Framework used in: Knights et al. 2021)
+Downloading OSF data into ./data
 '
 
 mkdir ./data
 
-curl -L 'https://osf.io/wtq5a?action=download&version=1' > ./data/UNIBI_Database_editedForMatlab.xlsx
-
-mv ./data/UNIBI_Database_editedForMatlab.xlsx ./data/rawData.xlsx
+curl -L 'https://osf.io/8f6nt?action=download&version=1' > './data/FREEPER_Database.xlsx'
+curl -L 'https://osf.io/j9btx?action=download&version=1' > './data/UNIBI_Database.xlsx'
 
 echo '
 Setup complete. For analysis instructions see:
@@ -20,3 +19,6 @@ Consider environment setup with:
 pip install -r requirements.txt
 '
 #pip install -r requirements.txt
+
+# python convert2long_experiment-1.py
+python convert2long_experiment-2.py
