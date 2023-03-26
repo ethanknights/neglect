@@ -1,7 +1,7 @@
 #
 import pandas as pd
 
-fN = './data/rawData.xlsx'
+fN = './data/UNIBI_Database.xlsx'
 
 #Stack data
 df = pd.concat(pd.read_excel(fN, sheet_name=None), ignore_index=True)
@@ -89,5 +89,6 @@ assert(len(tmp) == 0)
 
 
 # Write
-df.to_excel('./data/rawData2.xlsx')
+df.to_excel('./data/UNIBI_longFormat.xlsx')
+
 
