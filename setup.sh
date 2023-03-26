@@ -7,7 +7,7 @@ Downloading OSF data into ./data
 mkdir ./data
 
 curl -L 'https://osf.io/8f6nt?action=download&version=1' > './data/FREEPER_Database.xlsx'
-curl -L 'https://osf.io/j9btx?action=download&version=1' > './data/UNIBI_Database.xlsx'
+curl -L 'https://osf.io/ejm67?action=download&version=1' > './data/UNIBI_Database.xlsx'
 
 echo '
 Setup complete. For analysis instructions see:
