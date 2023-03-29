@@ -27,8 +27,5 @@ df.insert(0, 'subjName', tmp)
 del tmp
 df = df.drop('index', axis=1)
 
-# TEMPORARY: LEAVE PATIENT + 1 CONTROL ONLY !
-df = df.iloc[:222, :]
-
 # Write
 df.to_csv('./data/UNIBI.csv', index=False)
