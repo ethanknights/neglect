@@ -1,7 +1,7 @@
 #
 import pandas as pd
 
-fN = './data/UNIBI_Database.xlsx'
+fN = './data/UNIBI_Database_2023.xlsx' # fN = './data/UNIBI_Database.xlsx'
 
 #Stack data
 df = pd.concat(pd.read_excel(fN, sheet_name=None), ignore_index=True)
@@ -21,12 +21,14 @@ tmp = []
 for idx, _ in enumerate(df['Trial Name']):
     tmp.append(df['Trial Name'][idx][0:4])
     # edge case
-    if tmp[idx] == 'DA_2':
-        tmp[idx] = 'DA'
+    if tmp[idx] == 'EB_2':
+        tmp[idx] = 'EB'
 df.insert(0, 'subjName', tmp)
 del tmp
 df = df.drop('index', axis=1)
 
+# TEMPORARY: LEAVE PATIENT + 1 CONTROL ONLY !
+df = df.iloc[1:222,:]
 
 # Assign condition / hand / target names
 tmp_condition = []  # UNI_LH / UNI_RH / BI_CON / BI_INC
