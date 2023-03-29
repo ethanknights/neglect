@@ -21,4 +21,6 @@ pip install -r requirements.txt
 #pip install -r requirements.txt
 
 # python convert2long_experiment-1.py
-python convert2long_experiment-2.py
+echo 'Converting data to long format for experiment 2: Bimanual Reaching'
+python setup/convert2long_experiment-2.py
+echo 'Finished!'
