@@ -2,7 +2,7 @@
 
 Run setup.sh to download data and perform python light preprocessing:
 ```sh
-./setup_experiment-2.sh 
+./setup/setup_experiment-2.sh 
 # Output: ./data/UNIBI.csv
 ```
 
