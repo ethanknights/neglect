@@ -28,7 +28,7 @@ del tmp
 df = df.drop('index', axis=1)
 
 # TEMPORARY: LEAVE PATIENT + 1 CONTROL ONLY !
-df = df.iloc[1:222,:]
+df = df.iloc[:222, :]
 
 # Assign condition / hand / target names
 tmp_condition = []  # UNI_LH / UNI_RH / BI_CON / BI_INC
