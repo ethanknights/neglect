@@ -1,18 +1,17 @@
-### Analysis instructions
+### Analysis instructions: Experiment 2 - Bimanual Reaching
 
-Setup:
+Run setup.sh to download data and perform python light preprocessing:
 ```sh
-./setup.sh
-# (calls python convert2long_experiment-1.py)
-# (calls python convert2long_experiment-2.py)
+./setup_experiment-2.sh 
+# Output: ./data/UNIBI.csv
 ```
 
-
-Use R for plotting & analysis:
-```sh
+Run plotting & analysis in R:
+```r
 # <TBC>
 ```
 
 
 ### Dev. Notes
-JSON representations exist to understand condition mapping etc (but are redundant now as code implements this via py FP).
+- Ignore the JSON representations in the history for understand condition mapping etc (these are now redundant).
+- input = .xlsx  /  output = .csv
