@@ -31,6 +31,4 @@ df = df.drop('index', axis=1)
 df = df.iloc[:222, :]
 
 # Write
-df.to_excel('./data/UNIBI_longFormat.xlsx')
-
-
+df.to_csv('./data/UNIBI.csv', index=False)
