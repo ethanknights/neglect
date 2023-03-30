@@ -4,6 +4,7 @@
 library(ggplot2)
 library(dplyr)
 library(tidyverse)
+library(singcar) #v0.1.3
 rm(list = ls()) # clears environment
 cat("\f") # clears console
 dev.off() # clears graphics device
