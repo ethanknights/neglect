@@ -28,3 +28,11 @@ pxwidth = 800
 #---- Load Data ----#
 rawD <- read.csv(file.path(rawDir,'UNIBI.csv'), header=TRUE, sep=",")
 df = rawD
+
+# Calculate Pointing_Error (distance error)
+df['Pointing_Error'] = sqrt(
+  df[,'X.Error'] ^ 2 + df[,'Y.Error'] ^ 2
+  )
+
+# Next:   ttests.R
+# Next:   plot_ttest.R
