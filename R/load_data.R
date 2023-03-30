@@ -5,6 +5,7 @@ library(ggplot2)
 library(dplyr)
 library(tidyverse)
 library(singcar) #v0.1.3
+require(gdata)
 rm(list = ls()) # clears environment
 cat("\f") # clears console
 dev.off() # clears graphics device
@@ -26,7 +27,7 @@ dir.create(outImageDir,showWarnings = FALSE)
 pxheight = 600
 pxwidth = 800
 
-#---- Load Data ----#
+# Load Data
 rawD <- read.csv(file.path(rawDir,'UNIBI.csv'), header=TRUE, sep=",")
 df = rawD
 
@@ -34,6 +35,48 @@ df = rawD
 df['Pointing_Error'] = sqrt(
   df[,'X.Error'] ^ 2 + df[,'Y.Error'] ^ 2
   )
+
+# Add full_condition_name (e.g. UNI-LH-LH-Far, BICON-RH-Close)
+df['full_condition_name'] <- paste(df$condition_name, df$hand_name, df$target_name, sep = "_")
+df = df %>% relocate(full_condition_name, .after=subjName)
+
+# Add patient/control label column
+## NB: Subset to just patient with:  df['patient_label'] = df['subjName'] == 'EB'
+df['patient_label'] = ''
+df['patient_label'][df['subjName'] == 'EB'] = 'Patient'
+df['patient_label'][df['subjName'] != 'EB'] = 'Control'
+df = df %>% relocate(patient_label, .after=subjName)
+
+# Prepare df_big_summary (i.e. not collapsing any conditions/hands/targets)
+df_big_summary <- group_by(df, subjName, full_condition_name, patient_label)
+df_big_summary <- summarise(df_big_summary, mean=mean(Pointing_Error), sd=sd(Pointing_Error))
+
+# Re-order the levels
+new_order <- c(
+  'UNI-LH_LH_Far',
+  'UNI-LH_LH_Close',
+
+  'UNI-RH_RH_Far',
+  'UNI-RH_RH_Close',
+  
+  'CON_RH_Far',
+  'CON_LH_Far',
+  'CON_RH_Close',
+  'CON_LH_Close',
+  
+  'INC_RH_Far',
+  'INC_LH_Close',
+  'INC_RH_Close',
+  'INC_LH_Far'
+  )
+df_big_summary$full_condition_name <- reorder.factor(df_big_summary$full_condition_name, new.order = new_order)
+df_big_summary = df_big_summary %>%
+  arrange(full_condition_name)
+
+## Reorder summary table (patient first, alphaebtical control)
+df_big_summary = rbind(df_big_summary[df_big_summary['subjName'] == 'EB',], df_big_summary[df_big_summary['subjName'] != 'EB',])  # versatile for plotting single controls (i.e. ignore patient_label)!
+
+
 
 # Next:   ttests.R
 # Next:   plot_ttest.R
