@@ -27,5 +27,8 @@ df.insert(0, 'subjName', tmp)
 del tmp
 df = df.drop('index', axis=1)
 
+# Retain only 3 letter condition_names for consistency (e.g. R results table later)
+df['condition_name'] = df['condition_name'].str[:3]
+
 # Write
 df.to_csv('./data/UNIBI.csv', index=False)
