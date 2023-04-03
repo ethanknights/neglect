@@ -1,55 +1,11 @@
-# initial EDA
-
-
-# How is Patient?
-#tmp = summary[summary['subjName'] == 'EB',]
-tmp = summary
-
-# gist plot
-p <- ggplot(data=df_big_summary, aes(x=full_condition_name, colour=patient_label)) +
-  geom_point(aes(y = mean)) + 
-               scale_x_discrete(guide = guide_axis(angle = 60))
-p
-ggsave(
-  filename = file.path(outImageDir,'pointingError_allConditions.png'),
-  plot = p,
-  width = cmwidth,
-  height = cmheight,
-  units = 'cm',
-  dpi = 300,
-  limitsize = TRUE,
-)
-
-
-# Plot pointing coordinates
-## assert no missing coordinates (xls formulae...)
-tmp = df[which(is.na(df$Zerodx)),]
-tmp = df[which(is.na(df$Zerody)),] 
-# artificial shift for plotting
-df$Zerodx_shift[df$hand_name == 'LH'] = df$Zerodx[df$hand_name == 'LH'] - 200
-df$Zerodx_shift[df$hand_name == 'RH'] = df$Zerodx[df$hand_name == 'RH'] + 200
-
-
-p <- ggplot(data=df, aes(colour=patient_label)) +
-  geom_point(aes(x = Zerodx_shift, y = Zerody)) + 
-  scale_x_discrete(guide = guide_axis(angle = 60))
-p
-p + facet_grid(cols = vars(full_condition_name))
-
-
-# Reminder: Main singcar funcions:
-# BTD() which supersedes Deficit test i.e. TD().
+# Purpose: Write Pointing Error analysis (BTDs: UNI_LH_Far, UNI_LH_Close etc.) to ./derivatives/
+#
+# BTD() supersedes Deficit test i.e. TD().
 # e.g. Is LH error different than controls? 
 
-# BSDT() which allows Deficit Test using difference between two tasks. 
-# e.g. is difference of LH & RH different for patient vs. controls
-
-#--- do BTD ---#
-
-
-# For reference & future EDA: This snippet examples running a BTD for a single condition
+## Reference Example: This snippet examples running a BTD for a single condition
 # outT_UNI_LH_LH_Far <- as.data.frame(matrix(nrow = 10, ncol = 10))
-# 
+#
 # tmp_df = df_big_summary
 # tmp_df = tmp_df[tmp_df$full_condition_name == 'UNI-LH_LH_Far',]
 # 
@@ -71,6 +27,7 @@ p + facet_grid(cols = vars(full_condition_name))
 # outT_UNI_LH_LH_Far[i,8] <- round(BTD_res$estimate[2], digits = 2)
 # outT_UNI_LH_LH_Far[i,9] <- round(BTD_res$interval[4], digits = 2)
 # outT_UNI_LH_LH_Far[i,10] <- round(BTD_res$interval[5], digits = 2)
+
 
 # Run all BTDs
 conditionStrs = new_order # inherited: load_data.R
@@ -103,19 +60,36 @@ for (i in 1:length(conditionStrs)) {
 
 }
 
-# format table
+# Format output table
 colnames(outT) <- c("Condiiton",
-                                  "Hand", 
-                                  "Target", 
-                                  'p',
-                                  'Z-CC', 
-                                  'CI Low.', 
-                                  'CI Upp.', 
-                                  'Prop. below case (%)', 
-                                  'CI Low.', 
-                                  'CI Upp.' )
-#0 to "<.001"
-idx = outT == 0; idx[1:nrow(idx),3] = FALSE #dont replace target 0
+                    "Hand", 
+                    "Target", 
+                    'p',
+                    'Z-CC',
+                    'CI Low.', 
+                    'CI Upp.', 
+                    'Prop. below case (%)', 
+                    'CI Low.', 
+                    'CI Upp.' )
+idx = outT == 0; idx[1:nrow(idx),3] = FALSE ## Overwrite pval 0 as "<.001" # dont replace target 0
 outT[idx] = "<.001"
 
+
+# Write output to ./derivatives
 write.csv(outT,file.path(outDir,'Table_BTD.csv'),row.names=FALSE)
+
+
+# Produce & write a point plot with a gist of the results
+p <- ggplot(data=df_big_summary, aes(x=full_condition_name, colour=patient_label)) +
+  geom_point(aes(y = mean)) + 
+  scale_x_discrete(guide = guide_axis(angle = 60))
+p
+ggsave(
+  filename = file.path(outImageDir,'pointingError_allConditions.png'),
+  plot = p,
+  width = cmwidth,
+  height = cmheight,
+  units = 'cm',
+  dpi = 300,
+  limitsize = TRUE,
+)
