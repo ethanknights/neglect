@@ -10,6 +10,15 @@ p <- ggplot(data=df_big_summary, aes(x=full_condition_name, colour=patient_label
   geom_point(aes(y = mean)) + 
                scale_x_discrete(guide = guide_axis(angle = 60))
 p
+ggsave(
+  filename = file.path(outImageDir,'pointingError_allConditions.png'),
+  plot = p,
+  width = cmwidth,
+  height = cmheight,
+  units = 'cm',
+  dpi = 300,
+  limitsize = TRUE,
+)
 
 
 # Plot pointing coordinates
@@ -26,8 +35,6 @@ p <- ggplot(data=df, aes(colour=patient_label)) +
   scale_x_discrete(guide = guide_axis(angle = 60))
 p
 p + facet_grid(cols = vars(full_condition_name))
-
-
 
 
 # Reminder: Main singcar funcions:
@@ -110,3 +117,5 @@ colnames(outT) <- c("Condiiton",
 #0 to "<.001"
 idx = outT == 0; idx[1:nrow(idx),3] = FALSE #dont replace target 0
 outT[idx] = "<.001"
+
+write.csv(outT,file.path(outDir,'Table_BTD.csv'),row.names=FALSE)

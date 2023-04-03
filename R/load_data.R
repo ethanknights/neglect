@@ -24,8 +24,8 @@ outImageDir = file.path(outDir,'images')
 dir.create(outDir,showWarnings = FALSE)
 dir.create(outImageDir,showWarnings = FALSE)
 
-pxheight = 600
-pxwidth = 800
+cmheight = 18
+cmwidth = 18
 
 # Load Data
 rawD <- read.csv(file.path(rawDir,'UNIBI.csv'), header=TRUE, sep=",")
