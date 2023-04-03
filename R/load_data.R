@@ -53,11 +53,11 @@ df_big_summary <- summarise(df_big_summary, mean=mean(Pointing_Error), sd=sd(Poi
 
 # Re-order the levels
 new_order <- c(
-  'UNI-LH_LH_Far',
-  'UNI-LH_LH_Close',
+  'UNI_LH_Far',
+  'UNI_LH_Close',
 
-  'UNI-RH_RH_Far',
-  'UNI-RH_RH_Close',
+  'UNI_RH_Far',
+  'UNI_RH_Close',
   
   'CON_RH_Far',
   'CON_LH_Far',
