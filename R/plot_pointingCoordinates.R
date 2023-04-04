@@ -12,8 +12,8 @@ p <- ggplot(data=df, aes(colour=patient_label)) +
   geom_point(aes(x = Zerodx_shift, y = Zerody)) + 
   scale_x_discrete(guide = guide_axis(angle = 60))
 p
-p + facet_grid(cols = vars(full_condition_name))
-# ggsave(file.path(outImageDir,'pointingCoordinates_allConditions.png'), plot = p)
+p = p + facet_grid(cols = vars(full_condition_name))
+ggsave(file.path(outImageDir,'pointingCoordinates_allConditions.png'), plot = p)
 
 # png(file.path(outImageDir,'pointingCoordinates_allConditions.png'))
 # print(p)
