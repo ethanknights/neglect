@@ -10,18 +10,21 @@ do_BSTD <- function(conditionStrs, df_big_summary, descript_str) {
   
   outT <- as.data.frame(matrix(nrow = length(conditionStrs), ncol = 10))
   
-  for (i in 1:length(conditionStrs)) { # ToDo: use mod() or whatever is equivalent to iterate odd i only
+  for (i in 1:length(conditionStrs)) { if(i %% 2) { # ToDo: use mod() or whatever is equivalent to iterate odd i only
+    
+    j = 1 # iterator to store data in outT
     
     conditionStr_a = conditionStrs[i]
     conditionStr_b = conditionStrs[i+1]
     print(c(i, conditionStr_a, 'vs', i+1, conditionStr_b))
+    print(j)
     
     tmp_df_a <- df_big_summary[ df_big_summary$full_condition_name == conditionStr_a, ]
     tmp_df_b <- df_big_summary[ df_big_summary$full_condition_name == conditionStr_b, ]
     
     BSDT_res <- BSDT(
       case_a = tmp_df_a[tmp_df_a$patient_label == 'Patient','mean'],
-      case_b = tmp_df_b[tmp_df_a$patient_label == 'Patient','mean'],
+      case_b = tmp_df_b[tmp_df_b$patient_label == 'Patient','mean'],
       controls_a = tmp_df_a[tmp_df_a$patient_label == 'Control','mean'],
       controls_b = tmp_df_b[tmp_df_b$patient_label == 'Control','mean'],
       # sd_a = NULL,          # We provided vector of controls scores, so unnecessary (see ?BSTD)
@@ -47,7 +50,7 @@ do_BSTD <- function(conditionStrs, df_big_summary, descript_str) {
     # outT[i,9] <- round(BSTD_res$interval[4], digits = 2)
     # outT[i,10] <- round(BSTD_res$interval[5], digits = 2)
     
-  }
+
   
   # ToDo: Fix formatting output table
   # colnames(outT) <- c("Condiiton",
@@ -67,7 +70,7 @@ do_BSTD <- function(conditionStrs, df_big_summary, descript_str) {
   # ToDo: Fix Write output to ./derivatives
   # write.csv(outT,file.path(outDir,'Table_BSTD.csv'),row.names=FALSE)
   # 
-}
+} } }
 
 
 # Reference: Print all available conditionStrs 
