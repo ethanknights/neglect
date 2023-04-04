@@ -65,12 +65,17 @@ do_BSTD <- function(conditionStrs, df_big_summary, descript_str) {
   #                     'CI Upp.' )
   # idx = outT == 0; idx[1:nrow(idx),3] = FALSE ## Overwrite pval 0 as "<.001" # dont replace target 0
   # outT[idx] = "<.001"
+    
+    } } #for / if
+
+  # Write output to ./derivatives
+  fN = file.path(outDir, paste('Table_BSTD_',descript_str,'.csv', sep='') )
+  print(c('Writing table:', fN))
+  write.csv(outT, fN, row.names=FALSE)
+
+} # do_BSDT()
+
   
-  
-  # ToDo: Fix Write output to ./derivatives
-  # write.csv(outT,file.path(outDir,'Table_BSTD.csv'),row.names=FALSE)
-  # 
-} } }
 
 
 # Reference: Print all available conditionStrs 
