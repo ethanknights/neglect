@@ -8,6 +8,8 @@ do_BSTD <- function(conditionStrs, df_big_summary, descript_str) {
   ## df_big_summary: Tibble incl. $full_condition_name (matching the strings in conditionStrs), $patient_label ('patient' vs. 'control') & scores ($mean)
   ## descript_str: descriptive string used for output filenames describing this set of BSTDs (e.g. 'hand' for LH vs RH or 'condition' for UNI_LH vs. CON_LH or UNI_LH vs. INC_LH)
   
+  cat(paste0('Running do_BSDT() for analysis comparing: \n', descript_str))
+
   outT <- as.data.frame(matrix(nrow = length(conditionStrs), ncol = 10))
   
   for (i in 1:length(conditionStrs)) { if(i %% 2) { # ToDo: use mod() or whatever is equivalent to iterate odd i only
@@ -70,14 +72,12 @@ do_BSTD <- function(conditionStrs, df_big_summary, descript_str) {
   return(outT) 
 } # do_BSDT()
 
-  
 
+print('For reference, a list of all conditions:')
+print(new_order) # inherited: load_data.R
 
-# Reference: Print all available conditionStrs
-# print(new_order) # inherited: load_data.R
+# Define tests (a vs. b) & do_BSDT()
 
-# Define tests (a vs. b) for BSDT
-## Compare Hands
 descript_str = 'Hands'
 conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
   'UNI_LH_Far',   'UNI_RH_Far',
@@ -89,7 +89,36 @@ conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
   'INC_LH_Far',   'INC_RH_Far',
   'INC_LH_Close', 'INC_RH_Close'
 )
-
-
 outT <- do_BSTD(conditionStrs, df_big_summary, descript_str)
 
+descript_str = 'Conditions'
+conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
+  'UNI_LH_Far',   'CON_LH_Far',
+  'UNI_LH_Far',   'INC_LH_Far',
+  'CON_LH_Far',   'INC_LH_Far',
+  
+  'UNI_LH_Close',   'CON_LH_Close',
+  'UNI_LH_Close',   'INC_LH_Close',
+  'CON_LH_Close',   'INC_LH_Close',
+  
+  'UNI_RH_Far',   'CON_RH_Far',
+  'UNI_RH_Far',   'INC_RH_Far',
+  'CON_RH_Far',   'INC_RH_Far',
+  
+  'UNI_RH_Close',   'CON_RH_Close',
+  'UNI_RH_Close',   'INC_RH_Close',
+  'CON_RH_Close',   'INC_RH_Close'
+)
+outT <- do_BSTD(conditionStrs, df_big_summary, descript_str)
+
+descript_str = 'Targets'
+conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
+  'UNI_LH_Far',   'UNI_LH_Close',
+  'CON_LH_Far',   'CON_LH_Close',
+  'INC_LH_Far',   'INC_LH_Close',
+  
+  'UNI_RH_Far',   'UNI_RH_Close',
+  'CON_RH_Far',   'CON_RH_Close',
+  'INC_RH_Far',   'INC_RH_Close'
+)
+outT <- do_BSTD(conditionStrs, df_big_summary, descript_str)
