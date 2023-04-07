@@ -78,5 +78,6 @@ df_big_summary = rbind(df_big_summary[df_big_summary['subjName'] == 'EB',], df_b
 
 
 
-# Next:   ttests.R
-# Next:   plot_ttest.R
+# Next:   analysis_BTD.R
+# Next:   analysis_BSDT.R
+# Next:   plot_pointingCoordinates.R
