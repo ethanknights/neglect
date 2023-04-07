@@ -12,12 +12,9 @@ do_BSTD <- function(conditionStrs, df_big_summary, descript_str) {
   
   for (i in 1:length(conditionStrs)) { if(i %% 2) { # ToDo: use mod() or whatever is equivalent to iterate odd i only
     
-    j = 1 # iterator to store data in outT
-    
     conditionStr_a = conditionStrs[i]
     conditionStr_b = conditionStrs[i+1]
     print(c(i, conditionStr_a, 'vs', i+1, conditionStr_b))
-    print(j)
     
     tmp_df_a <- df_big_summary[ df_big_summary$full_condition_name == conditionStr_a, ]
     tmp_df_b <- df_big_summary[ df_big_summary$full_condition_name == conditionStr_b, ]
@@ -47,7 +44,7 @@ do_BSTD <- function(conditionStrs, df_big_summary, descript_str) {
     outT[i,10] <- round(BSDT_res$interval[5], digits = 2)
 
     } } #for / if
-
+  
   # Format output table
   colnames(outT) <- c("Condiiton",
                       "Hand",
@@ -62,11 +59,15 @@ do_BSTD <- function(conditionStrs, df_big_summary, descript_str) {
   idx = outT == 0; idx[1:nrow(idx),3] = FALSE ## Overwrite pval 0 as "<.001" # dont replace target 0
   outT[idx] = "<.001"
   
+  # Drop N/A rows (due to skipping odd iterator for BSTD)
+  outT <- na.omit(outT)
+  
   # Write output to ./derivatives
   fN = file.path(outDir, paste('Table_BSTD_',descript_str,'.csv', sep='') )
   print(c('Writing table:', fN))
   write.csv(outT, fN, row.names=FALSE)
 
+  return(outT) 
 } # do_BSDT()
 
   
@@ -90,5 +91,5 @@ conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
 )
 
 
-do_BSTD(conditionStrs, df_big_summary, descript_str)
+outT <- do_BSTD(conditionStrs, df_big_summary, descript_str)
 
