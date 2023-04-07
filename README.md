@@ -8,10 +8,7 @@ Run setup.sh to download data and perform python light preprocessing:
 
 Run plotting & analysis in R:
 ```r
-# <TBC>
+load_data.R
+analysis_BDT.R
+analysis_BSDT.R
 ```
-
-
-### Dev. Notes
-- Ignore the JSON representations in the history for understand condition mapping etc (these are now redundant).
-- input = .xlsx  /  output = .csv
