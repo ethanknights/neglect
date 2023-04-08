@@ -6,7 +6,7 @@
 ## Reference Example: This snippet examples running a BTD for a single condition
 # outT_UNI_LH_LH_Far <- as.data.frame(matrix(nrow = 10, ncol = 10))
 #
-# tmp_df = df_big_summary
+# tmp_df = df_summary
 # tmp_df = tmp_df[tmp_df$full_condition_name == 'UNI-LH_LH_Far',]
 # 
 # BTD_res <- BTD(
@@ -38,7 +38,7 @@ for (i in 1:length(conditionStrs)) {
   conditionStr = conditionStrs[i]
   print(c(i, conditionStr))
   
-  tmp_df = df_big_summary[df_big_summary$full_condition_name == conditionStr,]
+  tmp_df = df_summary[df_summary$full_condition_name == conditionStr,]
   
   BTD_res <- BTD(
     case = tmp_df[tmp_df$patient_label == 'Patient','mean'],
@@ -80,7 +80,7 @@ write.csv(outT,file.path(outDir,'Table_BTD.csv'),row.names=FALSE)
 
 
 # Produce & write a point plot with a gist of the results
-p <- ggplot(data=df_big_summary, aes(x=full_condition_name, colour=patient_label)) +
+p <- ggplot(data=df_summary, aes(x=full_condition_name, colour=patient_label)) +
   geom_point(aes(y = mean)) + 
   scale_x_discrete(guide = guide_axis(angle = 60))
 p

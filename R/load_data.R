@@ -47,9 +47,9 @@ df['patient_label'][df['subjName'] == 'EB'] = 'Patient'
 df['patient_label'][df['subjName'] != 'EB'] = 'Control'
 df = df %>% relocate(patient_label, .after=subjName)
 
-# Prepare df_big_summary (i.e. not collapsing any conditions/hands/targets)
-df_big_summary <- group_by(df, subjName, full_condition_name, patient_label)
-df_big_summary <- summarise(df_big_summary, mean=mean(Pointing_Error), sd=sd(Pointing_Error))
+# Prepare df_summary (i.e. not collapsing any conditions/hands/targets)
+df_summary <- group_by(df, subjName, full_condition_name, patient_label)
+df_summary <- summarise(df_summary, mean=mean(Pointing_Error), sd=sd(Pointing_Error))
 
 # Re-order the levels
 new_order <- c(
@@ -69,12 +69,14 @@ new_order <- c(
   'INC_RH_Close',
   'INC_LH_Far'
   )
-df_big_summary$full_condition_name <- reorder.factor(df_big_summary$full_condition_name, new.order = new_order)
-df_big_summary = df_big_summary %>%
+df_summary$full_condition_name <- reorder.factor(df_summary$full_condition_name, new.order = new_order)
+df_summary = df_summary %>%
   arrange(full_condition_name)
 
 ## Reorder summary table (patient first, alphaebtical control)
-df_big_summary = rbind(df_big_summary[df_big_summary['subjName'] == 'EB',], df_big_summary[df_big_summary['subjName'] != 'EB',])  # versatile for plotting single controls (i.e. ignore patient_label)!
+df_summary = rbind(df_summary[df_summary['subjName'] == 'EB',], df_summary[df_summary['subjName'] != 'EB',])  # versatile for plotting single controls (i.e. ignore patient_label)!
+
+
 
 
 
