@@ -74,9 +74,13 @@ colnames(outT) <- c("Condiiton",
 idx = outT == 0; idx[1:nrow(idx),3] = FALSE ## Overwrite pval 0 as "<.001" # dont replace target 0
 outT[idx] = "<.001"
 
+# if analysis IS collapsing targets, drop target colmumn in output table
+if (analysis_descript_str != '_extra-notCollapsed') { 
+  outT = outT[, -which(names(outT) == "Target")]
+}
 
 # Write output to ./derivatives
-write.csv(outT,file.path(outDir,'Table_BTD.csv'),row.names=FALSE)
+write.csv(outT,file.path(outDir,paste0('Table_BTD',analysis_descript_str,'.csv')), row.names=FALSE)
 
 
 # Produce & write a point plot with a gist of the results
@@ -85,7 +89,7 @@ p <- ggplot(data=df_summary, aes(x=full_condition_name, colour=patient_label)) +
   scale_x_discrete(guide = guide_axis(angle = 60))
 p
 ggsave(
-  filename = file.path(outImageDir,'pointingError_allConditions.png'),
+  filename = file.path(outImageDir,paste0('pointingError_allConditions',analysis_descript_str,'.png')),
   plot = p,
   width = cmwidth,
   height = cmheight,
