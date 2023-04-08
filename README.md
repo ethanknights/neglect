@@ -8,7 +8,10 @@ Run setup.sh to download data and perform python light preprocessing:
 
 Run plotting & analysis in R:
 ```r
-load_data.R
+# Load the dataset into a dataframe 'df_summary' by sourcing:
+load_data.R  # Or for extra results without collapsing across target instead run: extra_load_data_nonCollapsed.R
+
+# Run single case study statistical tests by sourcing:
 analysis_BDT.R
 analysis_BSDT.R
 ```
