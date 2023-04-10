@@ -84,8 +84,6 @@ write.csv(outT,file.path(outDir,paste0('Table_BTD',analysis_descript_str,'.csv')
 
 
 # Produce & write a point plot with a gist of the results
-df_summary$patient_label <- factor(df_summary$patient_label, levels = c("Patient", "Control"))
-
 p <- ggplot(data=df_summary, aes(x=full_condition_name, y=mean, colour=patient_label, group = subjName)) +
   geom_point(size = 2, alpha = 0.8) +
   geom_line(size = 0.75, alpha = 0.25) + 
