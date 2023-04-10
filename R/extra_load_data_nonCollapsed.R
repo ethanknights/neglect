@@ -79,6 +79,8 @@ df_summary = rbind(df_summary[df_summary['subjName'] == 'EB',], df_summary[df_su
 # Global string to append to analysis derivative files
 analysis_descript_str = '_extra-notCollapsed'
 
+# Reorder factor patient labels so patient on top in plots
+df_summary$patient_label <- factor(df_summary$patient_label, levels = c("Patient", "Control"))
 
 
 
