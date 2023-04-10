@@ -70,7 +70,7 @@ df_summary = df_summary %>%
 df_summary = rbind(df_summary[df_summary['subjName'] == 'EB',], df_summary[df_summary['subjName'] != 'EB',])  # versatile for plotting single controls (i.e. ignore patient_label)!
 
 # Global string to append to analysis derivative files
-analysis_descript_str = ''  # Main results, so no stirng
+analysis_descript_str = ''  # Main results, so no string
 
 
 
