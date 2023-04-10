@@ -57,7 +57,7 @@ for (i in 1:length(conditionStrs)) {
   outT[i,8] <- round(BTD_res$estimate[2], digits = 2)
   outT[i,9] <- round(BTD_res$interval[4], digits = 2)
   outT[i,10] <- round(BTD_res$interval[5], digits = 2)
-
+  
 }
 
 # Format output table
@@ -84,8 +84,9 @@ write.csv(outT,file.path(outDir,paste0('Table_BTD',analysis_descript_str,'.csv')
 
 
 # Produce & write a point plot with a gist of the results
-p <- ggplot(data=df_summary, aes(x=full_condition_name, colour=patient_label)) +
-  geom_point(aes(y = mean)) + 
+p <- ggplot(data=df_summary, aes(x=full_condition_name, y=mean, colour=patient_label, group = subjName)) +
+  geom_point() +
+  geom_line() + 
   scale_x_discrete(guide = guide_axis(angle = 60))
 p
 ggsave(
