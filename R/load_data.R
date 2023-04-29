@@ -32,9 +32,11 @@ rawD <- read.csv(file.path(rawDir,'UNIBI.csv'), header=TRUE, sep=",")
 df = rawD
 
 # Calculate Pointing_Error (distance error)
-df['Pointing_Error'] = sqrt(
-  df[,'X.Error'] ^ 2 + df[,'Y.Error'] ^ 2
-)
+# df['Pointing_Error'] = sqrt(
+#   df[,'X.Error'] ^ 2 + df[,'Y.Error'] ^ 2
+# )
+df['Pointing_Error'] = df['movement.time']
+
 
 # Add full_condition_name (e.g. UNI-LH-LH-Far, BICON-RH-Close)
 df['full_condition_name'] <- paste(df$condition_name, df$hand_name, sep = "_")
