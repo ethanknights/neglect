@@ -32,14 +32,12 @@ rawD <- read.csv(file.path(rawDir,'UNIBI.csv'), header=TRUE, sep=",")
 df = rawD
 
 # Calculate Pointing_Error (distance error)
-# df['Pointing_Error'] = sqrt(
-#   df[,'X.Error'] ^ 2 + df[,'Y.Error'] ^ 2
-# )
-df['Pointing_Error'] = df['movement.time']
-
+df['Pointing_Error'] = sqrt(
+  df[,'X.Error'] ^ 2 + df[,'Y.Error'] ^ 2
+  )
 
 # Add full_condition_name (e.g. UNI-LH-LH-Far, BICON-RH-Close)
-df['full_condition_name'] <- paste(df$condition_name, df$hand_name, sep = "_")
+df['full_condition_name'] <- paste(df$condition_name, df$hand_name, df$target_name, sep = "_")
 df = df %>% relocate(full_condition_name, .after=subjName)
 
 # Add patient/control label column
@@ -55,15 +53,22 @@ df_summary <- summarise(df_summary, mean=mean(Pointing_Error), sd=sd(Pointing_Er
 
 # Re-order the levels
 new_order <- c(
-  'UNI_LH',
-  'UNI_RH',
+  'UNI_LH_Far',
+  'UNI_LH_Close',
+
+  'UNI_RH_Far',
+  'UNI_RH_Close',
   
-  'CON_LH',
-  'CON_RH',
+  'CON_RH_Far',
+  'CON_LH_Far',
+  'CON_RH_Close',
+  'CON_LH_Close',
   
-  'INC_LH',
-  'INC_RH'
-)
+  'INC_RH_Far',
+  'INC_LH_Close',
+  'INC_RH_Close',
+  'INC_LH_Far'
+  )
 df_summary$full_condition_name <- reorder.factor(df_summary$full_condition_name, new.order = new_order)
 df_summary = df_summary %>%
   arrange(full_condition_name)
@@ -72,7 +77,7 @@ df_summary = df_summary %>%
 df_summary = rbind(df_summary[df_summary['subjName'] == 'EB',], df_summary[df_summary['subjName'] != 'EB',])  # versatile for plotting single controls (i.e. ignore patient_label)!
 
 # Global string to append to analysis derivative files
-analysis_descript_str = ''  # Main results, so no string
+analysis_descript_str = '_extra-notCollapsed'
 
 # Reorder factor patient labels so patient on top in plots
 df_summary$patient_label <- factor(df_summary$patient_label, levels = c("Patient", "Control"))
