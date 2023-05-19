@@ -93,6 +93,5 @@ df_summary$patient_label <- factor(df_summary$patient_label, levels = c("Patient
 
 
 
-# Next:   analysis_BTD.R
-# Next:   analysis_BSDT.R
-# Next:   plot_pointingCoordinates.R
+# Next source:   analysis_BTD_AND_BSTD.R
+# Next source:   plot_pointingCoordinates.R
