@@ -11,7 +11,7 @@ curl -L 'https://osf.io/vpyqe?action=download&version=1' > './data/UNIBI_Databas
 
 echo '
 Setup complete. For analysis instructions see:
-https://github.com/ethanknights/ <TBC>
+https://github.com/ethanknights/neglect
 '
 
 echo '
