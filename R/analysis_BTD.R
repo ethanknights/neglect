@@ -1,111 +1,80 @@
-# Purpose: Write Pointing Error analysis (BTDs: UNI_LH_Far, UNI_LH_Close etc.) to ./derivatives/
-#
-# BTD() supersedes Deficit test i.e. TD().
-# e.g. Is LH error different than controls? 
+# Purpose: Write BTD() analysis output tables (BTDs: UNI_LH_Far, UNI_LH_Close etc.) to ./derivatives/
 
-## Reference Example: This snippet examples running a BTD for a single condition
-# outT_UNI_LH_LH_Far <- as.data.frame(matrix(nrow = 10, ncol = 10))
-#
-# tmp_df = df_summary
-# tmp_df = tmp_df[tmp_df$full_condition_name == 'UNI-LH_LH_Far',]
-# 
-# BTD_res <- BTD(
-#   case = tmp_df[tmp_df$patient_label == 'Patient','mean'],
-#   controls = tmp_df[tmp_df$patient_label == 'Control','mean'],
-#   alternative = c("two.sided"),
-#   int_level = 0.95,
-#   iter = 10000)
-#
-# i = 1  # lazy iteration!
-# outT_UNI_LH_LH_Far[i,1] <- 'UNI-LH'
-# outT_UNI_LH_LH_Far[i,2] <- 'LH'
-# outT_UNI_LH_LH_Far[i,3] <- 'Far'
-# outT_UNI_LH_LH_Far[i,4] <- round(BTD_res$p.value, digits = 3)
-# outT_UNI_LH_LH_Far[i,5] <- round(BTD_res$estimate[1], digits = 2)
-# outT_UNI_LH_LH_Far[i,6] <- round(BTD_res$interval[2], digits = 2)
-# outT_UNI_LH_LH_Far[i,7] <- round(BTD_res$interval[3], digits = 2)
-# outT_UNI_LH_LH_Far[i,8] <- round(BTD_res$estimate[2], digits = 2)
-# outT_UNI_LH_LH_Far[i,9] <- round(BTD_res$interval[4], digits = 2)
-# outT_UNI_LH_LH_Far[i,10] <- round(BTD_res$interval[5], digits = 2)
-
+do_BTD <- function(conditionStrs, df_summary, descript_str, analysis_descript_str) {
+  # do_BTD() runs BTD for each condition defined in conditionStrs
+  ## conditionStrs: List of strings defining the conditions to run BTD on
+  ## df_summary: Tibble including $full_condition_name (matching the strings in conditionStrs), $patient_label ('patient' vs. 'control'), and scores ($mean)
+  ## analysis_descript_str: Descriptive string for this analysis
+  
+  cat(paste0('Running do_BTD() for analysis: ', analysis_descript_str, '\n'))
+  
+  outT <- as.data.frame(matrix(nrow = length(conditionStrs), ncol = 10))
+  
+  for (i in 1:length(conditionStrs)) {
+    
+    conditionStr <- conditionStrs[i]
+    print(c(i, conditionStr))
+    
+    tmp_df <- df_summary[df_summary$full_condition_name == conditionStr, ]
+    
+    BTD_res <- BTD(
+      case = tmp_df[tmp_df$patient_label == 'Patient', 'mean'],
+      controls = tmp_df[tmp_df$patient_label == 'Control', 'mean'],
+      alternative = c("two.sided"),
+      int_level = 0.95,
+      iter = 10000
+    )
+    
+    outT[i, 1] <- substr(conditionStr, start = 1, stop = 3)
+    outT[i, 2] <- substr(conditionStr, start = 5, stop = 6)
+    outT[i, 3] <- substr(conditionStr, start = 8, stop = 12)
+    outT[i, 4] <- round(BTD_res$p.value, digits = 3)
+    outT[i, 5] <- round(BTD_res$estimate[1], digits = 2)
+    outT[i, 6] <- round(BTD_res$interval[2], digits = 2)
+    outT[i, 7] <- round(BTD_res$interval[3], digits = 2)
+    outT[i, 8] <- round(BTD_res$estimate[2], digits = 2)
+    outT[i, 9] <- round(BTD_res$interval[4], digits = 2)
+    outT[i, 10] <- round(BTD_res$interval[5], digits = 2)
+    
+  }
+  
+  # Format output table
+  colnames(outT) <- c("Condition",
+                      "Hand",
+                      "Target",
+                      'p',
+                      'Z-CC',
+                      'CI Low.',
+                      'CI Upp.',
+                      'Prop. below case (%)',
+                      'CI Low.',
+                      'CI Upp.' )
+  idx <- outT == 0
+  idx[1:nrow(idx), 3] <- FALSE
+  outT[idx] <- "<.001"
+  
+  # Write output to ./derivatives
+  fN = file.path(outDir, paste0('Table_BTD_',descript_str,analysis_descript_str,'.csv', sep='') )
+  print(c('Writing table:', fN))
+  write.csv(outT, fN, row.names = FALSE)
+  
+  return(outT)
+}
 
 # Run all BTDs
+descript_str = 'Main' 
 conditionStrs = new_order # inherited: load_data.R
 outT <- as.data.frame(matrix(nrow = length(conditionStrs), ncol = 10))
 
-for (i in 1:length(conditionStrs)) {
-  
-  conditionStr = conditionStrs[i]
-  print(c(i, conditionStr))
-  
-  tmp_df = df_summary[df_summary$full_condition_name == conditionStr,]
-  
-  BTD_res <- BTD(
-    case = tmp_df[tmp_df$patient_label == 'Patient','mean'],
-    controls = tmp_df[tmp_df$patient_label == 'Control','mean'],
-    alternative = c("two.sided"),
-    int_level = 0.95,
-    iter = 10000)
-  
-  outT[i,1] <- substr(conditionStr, start = 1, stop = 3)
-  outT[i,2] <- substr(conditionStr, start = 5, stop = 6)
-  outT[i,3] <- substr(conditionStr, start = 8, stop = 12)
-  outT[i,4] <- round(BTD_res$p.value, digits = 3)
-  outT[i,5] <- round(BTD_res$estimate[1], digits = 2)
-  outT[i,6] <- round(BTD_res$interval[2], digits = 2)
-  outT[i,7] <- round(BTD_res$interval[3], digits = 2)
-  outT[i,8] <- round(BTD_res$estimate[2], digits = 2)
-  outT[i,9] <- round(BTD_res$interval[4], digits = 2)
-  outT[i,10] <- round(BTD_res$interval[5], digits = 2)
-  
-}
+descript_str_DV = 'mean_reaction.time' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
 
-# Format output table
-colnames(outT) <- c("Condiiton",
-                    "Hand", 
-                    "Target", 
-                    'p',
-                    'Z-CC',
-                    'CI Low.', 
-                    'CI Upp.', 
-                    'Prop. below case (%)', 
-                    'CI Low.', 
-                    'CI Upp.' )
-idx = outT == 0; idx[1:nrow(idx),3] = FALSE ## Overwrite pval 0 as "<.001" # dont replace target 0
-outT[idx] = "<.001"
+descript_str_DV = 'mean_movement.time' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
 
-# if analysis IS collapsing targets, drop target colmumn in output table
-if (analysis_descript_str != '_extra-notCollapsed') { 
-  outT = outT[, -which(names(outT) == "Target")]
-}
+descript_str_DV = 'PV' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
 
-# Write output to ./derivatives
-write.csv(outT,file.path(outDir,paste0('Table_BTD',analysis_descript_str,'.csv')), row.names=FALSE)
-
-
-# Produce & write a point plot with a gist of the results
-p <- ggplot(data=df_summary, aes(x=full_condition_name, y=mean, colour=patient_label, group = subjName)) +
-  geom_point(size = 2, alpha = 0.8) +
-  geom_line(size = 0.75, alpha = 0.25) + 
-  scale_color_manual(values=c("magenta", "turquoise")) +  # scale_color_brewer(palette = "Set2") +
-  scale_x_discrete(guide = guide_axis(angle = 60))
-p
-
-# # Could use jitter (but not perfect either - too much jitter is odd and too little leads to overlap).
-# p <- ggplot(data=df_summary, aes(x=full_condition_name, y=mean, group=subjName)) +
-#   geom_point(aes(color=patient_label), size=2, position = position_dodge(width=0.2)) +
-#   geom_line(aes(color=patient_label, group=interaction(patient_label, subjName)), size=0.2, alpha=0.25, position = position_dodge(width=0.75)) +
-#   scale_color_manual(values=c("cyan", "magenta")) +
-#   scale_x_discrete(guide=guide_axis(angle=60))
-# 
-# p
-
-ggsave(
-  filename = file.path(outImageDir,paste0('pointingError_allConditions',analysis_descript_str,'.png')),
-  plot = p,
-  width = cmwidth,
-  height = cmheight,
-  units = 'cm',
-  dpi = 300,
-  limitsize = TRUE,
-)

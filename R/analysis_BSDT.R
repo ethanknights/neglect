@@ -65,93 +65,97 @@ do_BSTD <- function(conditionStrs, df_summary, descript_str, analysis_descript_s
   # Drop N/A rows (due to skipping odd iterator for BSTD)
   outT <- na.omit(outT)
   
-  # if analysis IS collapsing targets, drop target colmumn in output table
-  if (analysis_descript_str != '_extra-notCollapsed') { 
-    outT = outT[, -which(names(outT) == "Target")]
-  }
-  
   # Write output to ./derivatives
   fN = file.path(outDir, paste0('Table_BSTD_',descript_str,analysis_descript_str,'.csv', sep='') )
   print(c('Writing table:', fN))
   write.csv(outT, fN, row.names=FALSE)
 
-  return(outT) 
+  return(outT)
 } # do_BSDT()
 
 
-print('For reference, a list of all conditions:')
-print(new_order) # inherited: load_data.R
+###### DO ANALYSIS ######
 
-# Define tests (a vs. b) & do_BSDT()
-# Compare Hands
+#### COMPARE HANDS ####
 descript_str = 'Hands'
-if (analysis_descript_str == '_extra-notCollapsed') {
-  conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
-    'UNI_LH_Far',   'UNI_RH_Far',
-    'UNI_LH_Close', 'UNI_RH_Close',
-    
-    'CON_LH_Far',   'CON_RH_Far',
-    'CON_LH_Close', 'CON_RH_Close',
-    
-    'INC_LH_Far',   'INC_RH_Far',
-    'INC_LH_Close', 'INC_RH_Close'
-    )
-} else { #Collapsed
-  conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
-    'UNI_LH',   'UNI_RH',
-    
-    'CON_LH',   'CON_RH',
+conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
+  'UNI_LH_Far',   'UNI_RH_Far',
+  'UNI_LH_Close', 'UNI_RH_Close',
   
-    'INC_LH',   'INC_RH'
-  )
-}
-outT <- do_BSTD(conditionStrs, df_summary, descript_str, analysis_descript_str)
+  'CON_LH_Far',   'CON_RH_Far',
+  'CON_LH_Close', 'CON_RH_Close',
+  
+  'INC_LH_Far',   'INC_RH_Far',
+  'INC_LH_Close', 'INC_RH_Close'
+)
 
-# Compare Conditions
+descript_str_DV = 'mean_reaction.time' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BSTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
+
+descript_str_DV = 'mean_movement.time' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BSTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
+
+descript_str_DV = 'mean_PV' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BSTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
+
+
+#### COMPARE CONDITIONS ####
 descript_str = 'Conditions'
-if (analysis_descript_str == '_extra-notCollapsed') {
-  conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
-    'UNI_LH_Far',   'CON_LH_Far',
-    'UNI_LH_Far',   'INC_LH_Far',
-    'CON_LH_Far',   'INC_LH_Far',
-    
-    'UNI_LH_Close',   'CON_LH_Close',
-    'UNI_LH_Close',   'INC_LH_Close',
-    'CON_LH_Close',   'INC_LH_Close',
-    
-    'UNI_RH_Far',   'CON_RH_Far',
-    'UNI_RH_Far',   'INC_RH_Far',
-    'CON_RH_Far',   'INC_RH_Far',
-    
-    'UNI_RH_Close',   'CON_RH_Close',
-    'UNI_RH_Close',   'INC_RH_Close',
-    'CON_RH_Close',   'INC_RH_Close'
-  )
-} else { #Collapsed
-  conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
-    'UNI_LH',   'CON_LH',
-    'UNI_LH',   'INC_LH',
-    'CON_LH',   'INC_LH',
-    
-    'UNI_RH',   'CON_RH',
-    'UNI_RH',   'INC_RH',
-    'CON_RH',   'INC_RH'
-  )
-}
-outT <- do_BSTD(conditionStrs, df_summary, descript_str, analysis_descript_str)
+conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
+  'UNI_LH_Far',   'CON_LH_Far',
+  'UNI_LH_Far',   'INC_LH_Far',
+  'CON_LH_Far',   'INC_LH_Far',
+  
+  'UNI_LH_Close',   'CON_LH_Close',
+  'UNI_LH_Close',   'INC_LH_Close',
+  'CON_LH_Close',   'INC_LH_Close',
+  
+  'UNI_RH_Far',   'CON_RH_Far',
+  'UNI_RH_Far',   'INC_RH_Far',
+  'CON_RH_Far',   'INC_RH_Far',
+  
+  'UNI_RH_Close',   'CON_RH_Close',
+  'UNI_RH_Close',   'INC_RH_Close',
+  'CON_RH_Close',   'INC_RH_Close'
+)
+
+descript_str_DV = 'mean_reaction.time' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BSTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
+
+descript_str_DV = 'mean_movement.time' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BSTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
+
+descript_str_DV = 'mean_PV' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BSTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
 
 
-# Compare Targets (only if Targets are not collapsed!)
-if (analysis_descript_str == '_extra-notCollapsed') {
-  descript_str = 'Targets'
-  conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
-    'UNI_LH_Far',   'UNI_LH_Close',
-    'CON_LH_Far',   'CON_LH_Close',
-    'INC_LH_Far',   'INC_LH_Close',
-    
-    'UNI_RH_Far',   'UNI_RH_Close',
-    'CON_RH_Far',   'CON_RH_Close',
-    'INC_RH_Far',   'INC_RH_Close'
-  )
-  outT <- do_BSTD(conditionStrs, df_summary, descript_str, analysis_descript_str)
-}
+#### COMPARE TARGETS ####
+descript_str = 'Targets'
+conditionStrs = c( # Pairs of tests (a,b) as in 1,2; 3,4; 5,6; 7,8 etc.
+  'UNI_LH_Far',   'UNI_LH_Close',
+  'CON_LH_Far',   'CON_LH_Close',
+  'INC_LH_Far',   'INC_LH_Close',
+  
+  'UNI_RH_Far',   'UNI_RH_Close',
+  'CON_RH_Far',   'CON_RH_Close',
+  'INC_RH_Far',   'INC_RH_Close'
+)
+
+descript_str_DV = 'mean_reaction.time' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BSTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
+
+descript_str_DV = 'mean_movement.time' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BSTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
+
+descript_str_DV = 'mean_PV' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BSTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
+
