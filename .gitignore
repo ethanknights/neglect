@@ -1,6 +1,7 @@
 # Data
 data
 R/derivatives
+.zip
 
 # R
 .Rhistory
