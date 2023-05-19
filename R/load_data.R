@@ -42,7 +42,7 @@ df = df %>% relocate(full_condition_name, .after=subjName)
 
 # Add patient/control label column
 ## NB: Subset to just patient with:  df['patient_label'] = df['subjName'] == 'EB'
-df['patient_label'] = ''
+df['patient_label'] = ''  # init 
 df['patient_label'][df['subjName'] == 'EB'] = 'Patient'
 df['patient_label'][df['subjName'] != 'EB'] = 'Control'
 df = df %>% relocate(patient_label, .after=subjName)
