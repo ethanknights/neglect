@@ -1,4 +1,4 @@
-do_BSTD <- function(conditionStrs, df_summary, descript_str, analysis_descript_str) {
+do_BSDT <- function(conditionStrs, df_summary, descript_str, analysis_descript_str) {
   # do_BSTD() runs all pairs of BSTDs that are defined in conditionStrs
   ## conditionStrs: List of strings [a,b] defining the pairs of tests to run (stored as [1,2; 3,4; 5,6; 7,8] etc.)
   ## df_summary: Tibble incl. $full_condition_name (matching the strings in conditionStrs), $patient_label ('patient' vs. 'control') & scores ($mean)
