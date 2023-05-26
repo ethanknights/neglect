@@ -6,7 +6,7 @@ Run setup.sh to download data and perform python light preprocessing:
 # Output: ./data/UNIBI.csv
 ```
 
-Run plotting & analysis in R:
+Run plotting & analysis in R from the 'R' directory:
 ```r
 # Load the dataset into a dataframe 'df_summary' by sourcing:
 load_data.R  # Or for extra results without collapsing across target instead run: extra_load_data_nonCollapsed.R
