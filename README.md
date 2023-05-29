@@ -14,4 +14,6 @@ load_data.R  # Or for extra results without collapsing across target instead run
 # Run single case study statistical tests by sourcing:
 analysis_BDT.R
 analysis_BSDT.R
+# Create plots
+plotting.R
 ```
