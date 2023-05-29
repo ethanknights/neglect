@@ -22,6 +22,11 @@ do_line_plot <- function(df_summary, descript_str) {
          limitsize = TRUE)
   return(p)}
 
+descript_str_DV = 'mean_Pointing_Error' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+p <- do_line_plot(curr_df_summary, descript_str_DV); p
+p <- p + labs(title = 'Mean Pointing Error by Condition and Patient'); p
+
 descript_str_DV = 'mean_reaction.time' # Modify me only!
 curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
 p <- do_line_plot(curr_df_summary, descript_str_DV); p
@@ -39,6 +44,12 @@ p <- p + labs(title = 'mean_PV by Condition and Patient'); p
 
 
 # BiCost
+descript_str_DV = 'mean_Pointing_Error' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+curr_df_summary <- calculate_bimanual_cost(curr_df_summary)
+p <- do_line_plot(curr_df_summary, paste0(descript_str_DV, '_', 'BI_cost')); p
+p <- p + labs(title = 'mean_Pointing_Error BI COST by Condition and Patient'); p
+
 descript_str_DV = 'mean_reaction.time' # Modify me only!
 curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
 curr_df_summary <- calculate_bimanual_cost(curr_df_summary)

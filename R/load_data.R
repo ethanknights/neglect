@@ -43,9 +43,9 @@ df['patient_label'][df['subjName'] != 'EB'] = 'Control'
 df = df %>% relocate(patient_label, .after=subjName)
 
 #Calculate Pointing_Error (distance error)
-# df['Pointing_Error'] = sqrt(
-#   df[,'X.Error'] ^ 2 + df[,'Y.Error'] ^ 2
-# )
+df['Pointing_Error'] = sqrt(
+  df[,'X.Error'] ^ 2 + df[,'Y.Error'] ^ 2
+)
 
 # Global string to append to analysis derivative files
 analysis_descript_str = ''
@@ -53,8 +53,8 @@ analysis_descript_str = ''
 # Prepare df_summary (i.e. not collapsing any conditions/hands/targets)
 df_summary <- group_by(df, subjName, full_condition_name, patient_label)
 df_summary <- summarise(df_summary, 
-                        # mean_Pointing_Error = mean(Pointing_Error),
-                        # sd_Pointing_Error = sd(Pointing_Error),
+                        mean_Pointing_Error = mean(Pointing_Error),
+                        sd_Pointing_Error = sd(Pointing_Error),
                         mean_reaction.time = mean(reaction.time),
                         sd_reaction.time = sd(reaction.time),
                         mean_movement.time = mean(movement.time),

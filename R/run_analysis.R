@@ -7,6 +7,10 @@ source("do_BTD.R")
 descript_str = 'Main'
 conditionStrs = new_order # inherited: load_data.R
 
+descript_str_DV = 'mean_Pointing_Error' # Modify me only!
+curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
+outT <- do_BTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
+
 descript_str_DV = 'mean_reaction.time' # Modify me only!
 curr_df_summary <- df_summary %>% select(subjName, patient_label, full_condition_name, mean = descript_str_DV)
 outT <- do_BTD(conditionStrs, curr_df_summary, paste0(descript_str, '_', descript_str_DV), analysis_descript_str)
