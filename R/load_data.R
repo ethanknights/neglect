@@ -32,7 +32,7 @@ rawD <- read.csv(file.path(rawDir,'UNIBI.csv'), header=TRUE, sep=",")
 df = rawD; rm(rawD)
 
 # Add full_condition_name (e.g. UNI-LH-LH-Far, BICON-RH-Close)
-df['full_condition_name'] <- paste(df$condition_name, df$hand_name, df$target_name, sep = "_")
+df['full_condition_name'] <- paste(df$condition_name, df$hand_name, sep = "_")
 df = df %>% relocate(full_condition_name, .after=subjName)
 
 # Add patient/control label column
@@ -64,23 +64,17 @@ df_summary <- summarise(df_summary,
                         )
 
 # Re-order the levels
-new_order <- c(
-  'UNI_LH_Far',
-  'UNI_LH_Close',
+new_order <- c(	
+  'UNI_LH',	
+  'UNI_RH',	
+  
+  'CON_LH',	
+  'CON_RH',	
+  
+  'INC_LH',	
+  'INC_RH'	
+)	
 
-  'UNI_RH_Far',
-  'UNI_RH_Close',
-  
-  'CON_RH_Far',
-  'CON_LH_Far',
-  'CON_RH_Close',
-  'CON_LH_Close',
-  
-  'INC_RH_Far',
-  'INC_LH_Close',
-  'INC_RH_Close',
-  'INC_LH_Far'
-  )
 df_summary$full_condition_name <- reorder.factor(df_summary$full_condition_name, new.order = new_order)
 df_summary = df_summary %>%
   arrange(full_condition_name)
