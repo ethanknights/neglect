@@ -1,5 +1,5 @@
 # Code Repository: Attention in Action
-R, Python & Matlab code for analysing motion-tracking dataset from a stroke single case study.
+R & Python code for Bayesian analysis of a motion-tracking [dataset]([url](https://osf.io/q8nj6/)) from a rare neuropsychological stroke patient & control-group.
 
 ## Article
 https://osf.io/preprints/psyarxiv/2qjfs
