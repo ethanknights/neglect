@@ -1,5 +1,13 @@
-### Analysis instructions: Experiment 2 - Bimanual Reaching
+# Code Repository: Attention in Action
+R, Python & Matlab code for analysing motion-tracking dataset from a stroke single case study.
 
+## Article
+https://osf.io/preprints/psyarxiv/2qjfs
+
+## Citation
+Knights, E., Ford, C., McIntosh, R. D., & Rossit, S. (2021, September 6). Attention in Action: evidence from peripheral and bimanual reaching deficits in a single case study of visual neglect and extinction post-stroke.
+
+### Analysis instructions for Experiment - Bimanual Reaching
 Run setup.sh to download data and perform python light preprocessing:
 ```sh
 ./setup/setup_experiment-2.sh 
@@ -17,3 +25,6 @@ analysis_BSDT.R
 # Create plots
 plotting.R
 ```
+
+### Analysis instructions for Experiment - Peripheral Reaching
+See: https://github.com/ethanknights/Knightsetal2022_neglect-opticAtaxia
