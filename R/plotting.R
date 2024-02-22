@@ -1,18 +1,24 @@
 # Produce & write a point plot with a gist of the results
 source('calculate_bimanual_cost.R')
 
+# Rearrange df rows so patient at bottom, for ggplot order
+df_summary <- df_summary %>%
+  arrange(factor(patient_label, levels = c("Control", "Patient")), subjName)
+
 do_line_plot <- function(df_summary, descript_str) {
-  
+
   p <- ggplot(data = df_summary, aes(x = full_condition_name, y = mean, colour = patient_label, group = subjName)) +
     geom_point(size = 4, alpha = 0.8, shape = 21, aes(fill = patient_label)) +
     geom_point(size = 4, alpha = 0.8, shape = 21, colour = "black", stroke = 0.6) +
-    geom_line(size = 0.8, alpha = 0.8, linetype = "dashed") +
+    geom_line(size = 0.8, alpha = 0.8, aes(linetype = patient_label)) +
     scale_color_manual(values = c("magenta", "cyan")) +
     scale_fill_manual(values = c("magenta", "cyan")) +
+    scale_linetype_manual(values = c("solid", "dashed")) +
     scale_x_discrete(guide = guide_axis(angle = 60)) +
     theme(panel.background = element_blank(), panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), legend.position = "none")
-  
+          panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+  p
+
   ggsave(filename = file.path(outImageDir, paste0('lineplot', descript_str, '.png')),
          plot = p,
          width = 15,  #width = cmwidth,
