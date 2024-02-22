@@ -18,7 +18,6 @@ do_line_plot <- function(df_summary, descript_str) {
     theme(panel.background = element_blank(), panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), 
           legend.position = "none")
-  p
 
   ggsave(filename = file.path(outImageDir, paste0('lineplot', descript_str, '.png')),
          plot = p,
