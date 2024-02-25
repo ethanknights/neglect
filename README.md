@@ -1,5 +1,5 @@
-# Code Repository: Attention in Action
-R & Python code for Bayesian analysis of a motion-tracking [dataset]([url](https://osf.io/q8nj6/)) from a rare neuropsychological stroke patient & control-group.
+# Code Repository: Attention in Action - Bimanual Reaching Experiment
+R & Python code for Bayesian analysis of a motion-tracking dataset from a rare neuropsychological stroke patient & control-group.
 
 ## Article
 https://osf.io/preprints/psyarxiv/2qjfs
@@ -8,9 +8,10 @@ https://osf.io/preprints/psyarxiv/2qjfs
 Knights, E., Ford, C., McIntosh, R. D., & Rossit, S. (2021, September 6). Attention in Action: evidence from peripheral and bimanual reaching deficits in a single case study of visual neglect and extinction post-stroke.
 
 ### Analysis instructions for Experiment - Bimanual Reaching
-Run setup.sh to download data and perform python light preprocessing:
+Run setup.sh to download data from OSF (https://osf.io/rbyne/ - Experiment 2) and perform python preprocessing:
 ```sh
-./setup/setup_experiment-2.sh 
+./setup/setup_experiment-2.sh
+# python setup/convert2long_experiment-2.py
 # Output: ./data/UNIBI.csv
 ```
 
