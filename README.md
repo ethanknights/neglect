@@ -2,7 +2,7 @@
 R & Python code for Bayesian analysis of a motion-tracking dataset from a rare neuropsychological stroke patient & control-group.
 
 ## Article
-https://osf.io/preprints/psyarxiv/2qjfs
+[Neuropsychologia Article](https://www.sciencedirect.com/science/article/pii/S0028393224001167)
 
 ## Citation
 Knights, E., Ford, C., McIntosh, R. D., & Rossit, S. (2021, September 6). Attention in Action: evidence from peripheral and bimanual reaching deficits in a single case study of visual neglect and extinction post-stroke.
